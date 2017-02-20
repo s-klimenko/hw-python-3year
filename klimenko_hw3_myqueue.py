@@ -22,7 +22,7 @@ class Stack:
         return False
 
 class MyQueue:
-    def __init__(self):
+    def __init__(self): # !!!Вероятно, ошибка вот здесь, потому что TypeError: enqueue() missing 1 required positional argument: 'item'
         self.stack_in = Stack()
         self.stack_out = Stack()
 
