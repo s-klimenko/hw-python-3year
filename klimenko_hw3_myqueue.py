@@ -6,20 +6,20 @@ class Stack:
     def push(self, item): # положить элемент в стек
         self.stack.append(item)
 
-    def pop(self): # удалить элемент из стека и вернуть его значение
-        if not self.isEmpty:
-            return self.stack.pop()
-        return None
-
-    def peek(self): # вернуть значение последнего элемента стека (не удаляя его)
-        if not self.isEmpty:
-            return self.stack[-1]
-        return None
-
     def isEmpty(self): # вернуть True, если стек пуст, иначе вернуть False
         if self.stack == []:
             return True
         return False
+
+    def pop(self): # удалить элемент из стека и вернуть его значение
+        if not self.isEmpty():
+            return self.stack.pop()
+        return None
+
+    def peek(self): # вернуть значение последнего элемента стека (не удаляя его)
+        if not self.isEmpty():
+            return self.stack[-1]
+        return None
 
 class MyQueue:
     def __init__(self): # !!!Вероятно, ошибка вот здесь, потому что TypeError: enqueue() missing 1 required positional argument: 'item'
@@ -27,8 +27,9 @@ class MyQueue:
         self.stack_out = Stack()
 
     def move(self): #перемещает из первого стека во второй
-        for i in self.stack_in.stack:
-            self.stack_out.push(i)
+        while self.stack_in.peek():
+            self.stack_out.push(self.stack_in.pop())
+        print(self.stack_out.stack)
 
     def enqueue(self, item):  # положить элемент в очередь
         self.stack_in.push(item)
@@ -54,9 +55,8 @@ class MyQueue:
             return True
         return False
 
-queue = MyQueue
+queue = MyQueue()
 queue.enqueue(1)
 queue.enqueue(2)
 queue.enqueue(3)
 queue.enqueue(4)
-queue.peek()
