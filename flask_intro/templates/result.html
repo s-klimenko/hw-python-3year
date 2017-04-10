@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты опроса!</title>
+</head>
+<body>
+<h1>Спасибо за ответ, {{ name }}!</h1>
+<p>Вы проголосовали за {% if animal == 'dog' %} собак {% elif animal == 'cat' %} кошек {% else %} никого {% endif %}.</p>
+<h2>Результаты опроса: </h2>
+<table>
+<tr>
+<td>Собаки</td>
+<td>{{dogs}}</td>
+</tr>
+<tr>
+<td>Кошки</td>
+<td>{{cats}}</td>
+</tr>
+</table>
+<h2>Список участников:</h2>
+    {% for person, value in persons.items() %}
+    <li>{{person}} голосовал(а) {{ value }}
+	{% if value|string|list|last == '2' 
+	or value|string|list|last == '3' 
+	or value|string|list|last == '4' %} раза
+	{% else %}раз
+	{% endif %}</li>
+    {% endfor %}
+</body>
+</html>
