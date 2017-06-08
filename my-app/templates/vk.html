@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Анализатор ВКонтакте</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/my_app.css') }}">
+
+    </head>
+
+    <body>
+        <div id="container">
+            <div id="header">
+                <h1>Анализатор содержания постов ВКонтакте</h1>
+            </div>
+            <div id="lowheader">
+                    <a href="/">На главную</a>
+                </div>
+            <div id="body">
+                <div id="section">
+                    <h2>Что здесь можно делать?</h2>
+                    <p>Ввести ID открытого сообщества или паблика и получить список самых частотных слов.<br>
+                    <a href="http://tkacheff.ru/16/kak-uznat-id-gruppy-vkontakte/">Здесь</a> вы можете посмотреть, как узнать ID.<p>
+                </div>
+
+                <div id="section">
+                    <form method='post'>
+                        <h2>ID</h2>
+                        <input name="id" placeholder="например, 85856325">{{ input }}</input>
+                        <br>
+                        <input id="myButton" type="submit" value="Отправить">
+                    </form>
+                </div>
+
+                {% if error == False %}
+                <div id="section">
+                    <h2>Результаты:</h2>
+                    <p>
+                        {% for lemm, value in lemms.items() %}
+                            <li>{{ lemm }}: {{ value }}
+                            {% if (value|string|list|last == '2' and value|string|list|last != '12') 
+                            or (value|string|list|last == '3' and value|string|list|last != '13') 
+                            or (value|string|list|last == '4' and value|string|list|last != '14') %} раза
+                            {% else %}раз
+                            {% endif %}</li>
+                    </p>
+                    {% endfor %}
+                </div>
+
+                {% elif error == True %}
+                <div id="section">
+                    <h2>Упс!</h2>
+                    <p>{{ error_text }}</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <div id="footer">
+                    <p>
+                        Cайт на <a href="https://github.com/s-klimenko/hw-python-3year/my-app/" id="myButton">GitHub</a>
+                    </p>
+            </div>
+        </div>
+ 
+    </body>
+</html>
