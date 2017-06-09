@@ -18,18 +18,40 @@
               ['Непереходные', 'Глаголы',        {{ intr }},                          15],
             ]);
 
-            var options = {minColor: '#ffcccc',
-                            maxColor: '#c0c0c0',
+            var options = {minColor: '#ffbc5e',
+                            maxColor: '#ba7e2a',
                             headerHeight: 15,
                             fontColor: 'black',
                             showScale: true,
-                            'title':'Части речи',
+                            'title':'Переходность',
                             'width':600,
                             'height':300,
                             'legend': { position: "none" }};
 
             var chart = new google.visualization.TreeMap(document.getElementById('chart_div'));
             chart.draw(data, options);
+              
+            var data1 = google.visualization.arrayToDataTable([
+              ['Location',           'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
+              ['Текст',                null,               0,                               0],
+              ['Неглаголы',           'Текст',     {{ all }}-{{ v }},                       0],
+              ['Глаголы',             'Текст',          {{ v }},                            0],
+              ['Совершенный вид',    'Глаголы',         {{ s }},                           11],
+              ['Несовершенный вид',  'Глаголы',         {{ ns }},                          15],
+            ]);
+
+            var options1 = {minColor: '#ffbc5e',
+                            maxColor: '#ba7e2a',
+                            headerHeight: 15,
+                            fontColor: 'black',
+                            showScale: true,
+                            'title':'Вид',
+                            'width':600,
+                            'height':300,
+                            'legend': { position: "none" }};
+
+            var chart1 = new google.visualization.TreeMap(document.getElementById('chart_div1'));
+            chart1.draw(data1, options1);
           }
         </script>
 
@@ -69,24 +91,25 @@
                     <h2>Результаты:</h2>
                     <p>
                         В тексте слов: {{ all }}<br>
-                        <div id="chart_div"></div>
                         Из них глаголов: {{ v }}<br>
                         Доля глаголов: {{ ratio }}<br>
                         Переходных глаголов: {{ tr }}<br>
                         Непереходных глаголов: {{ intr }}<br>
+                        <div id="chart_div"></div>
                         Глаголов совершенного вида: {{ s }}<br>
                         {% if amb != 0 %}
                             Глаголов, вид которых не удалось определить: {{ amb }}<br>
                         {% endif %}
                         Глаголов несовершенного вида: {{ ns }}<br>
+                        <div id="chart_div1"></div>
                         Леммы в порядке убывания:
                         {% for lemm, value in lemms.items() %}
                             <li>
                                 {{ lemm }}: {{ value }}
-                                {% if value|string|list|last == '2' 
-                                    or value|string|list|last == '3' 
-                                    or value|string|list|last == '4' %} раза
-                                    {% else %}раз
+                                {% if (value|string|list|last == '2' and value|string|list|last != '12') 
+                                or (value|string|list|last == '3' and value|string|list|last != '13') 
+                                or (value|string|list|last == '4' and value|string|list|last != '14') %} раза
+                                {% else %}раз
                                 {% endif %}</li>
 
                         {% endfor %}
@@ -96,7 +119,7 @@
             </div>
             <div id="footer">
                 <p>
-                    Cайт на <a href="https://github.com/s-klimenko/hw-python-3year/my-app/" id="myButton">GitHub</a>
+                    Cайт на <a href="https://github.com/s-klimenko/hw-python-3year/tree/master/my-app" id="myButton">GitHub</a>
                 </p>
             </div>
         </div>
