@@ -5,6 +5,29 @@
         <title>Анализатор ВКонтакте</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/my_app.css') }}">
 
+         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart'], 'language': 'ru'});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Часть речи');
+            data.addColumn('number', 'Количество');
+            data.addRows([
+              {% for lemm, value in data.items() %}
+                  [{{ lemm }}, {{ value|int }}],
+              {% endfor %}
+            ]);
+
+            var options = {'title':'Части речи',
+                           'width':600,
+                           'height':300,
+                            'legend': { position: "none" }};
+
+            var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+          }
+        </script>
     </head>
 
     <body>
@@ -34,6 +57,7 @@
                 {% if error == False %}
                 <div id="section">
                     <h2>Результаты:</h2>
+                    <div id="chart_div"></div>
                     <p>
                         {% for lemm, value in lemms.items() %}
                             <li>{{ lemm }}: {{ value }}
@@ -56,7 +80,7 @@
 
             <div id="footer">
                     <p>
-                        Cайт на <a href="https://github.com/s-klimenko/hw-python-3year/my-app/" id="myButton">GitHub</a>
+                        Cайт на <a href="https://github.com/s-klimenko/hw-python-3year/tree/master/my-app" id="myButton">GitHub</a>
                     </p>
             </div>
         </div>
