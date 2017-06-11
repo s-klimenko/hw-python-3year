@@ -3,6 +3,7 @@ from flask import url_for, render_template, request
 from vk import get_vk_posts
 from ocr import get_text_from_image
 from verbs import verbs_statistics
+from collections import defaultdict
 
 app = Flask(__name__)
 
@@ -35,13 +36,15 @@ def vk():
         error_message, result = get_vk_posts(id_vk)
         if not error_message:
             lemms = result
-            errosr_text = ''
+            lemms_short = defaultdict(int, result)
+            print(lemms_short)
+            error_text = ''
         else:
             lemms = ''
+            lemms_short = {}
             error_text = result
-        print(lemms)
-        return render_template('vk.html', error=error_message, lemms=lemms, error_text=error_text)
-    return render_template('vk.html')
+        return render_template('vk.html', data=lemms_short, error=error_message, lemms=lemms, error_text=error_text)
+    return render_template('vk.html', data={})
 
 
 @app.route('/ocr', methods=['get', 'post'])

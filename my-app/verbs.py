@@ -4,9 +4,9 @@ from collections import Counter
 
 def verbs_statistics(text):
     '''
-
-    :param text:
-    :return:
+    Выделяет из текста данные о частотности глаголов, их лемм, вида и совершенности
+    :param text: текст
+    :return: словари с частотностью
     '''
     m = Mystem()  # создаем экземпляр класса-анализатора
     ana = m.analyze(text)
@@ -60,7 +60,7 @@ def pos_counter(pos):
 
 def lemma_counter(verbs):
     '''
-
+    Считает количество лемм
     :param verbs:
     :type verbs: list
     :return: lemms - отсортированный по убыванию частотности словарь {лемма глагола : частотность в тексте}
@@ -73,11 +73,11 @@ def lemma_counter(verbs):
 
 def trans_couter(verbs):
     '''
-
+    Считает количество переходных и непереходных глаголов
     :param verbs:
     :type verbs: list
     :return: tr - количество переходных глаголов в тексте
-             intr - еоличество непереходных глаголов в тексте
+             intr - количество непереходных глаголов в тексте
     '''
     trans = [j.split('=')[0] for i in verbs for j in i['gr'].split(',') if j.startswith('нп=') or j.startswith('пе=')]
     c_tr = Counter(trans)
@@ -88,7 +88,7 @@ def trans_couter(verbs):
 
 def aspect_counter(verbs):
     '''
-
+    Считает количество глаголов совершенного и несовершенного вида
     :param verbs:
     :return: s - количество глаголов совершенного вида в тексте
              ns- количество глаголов несовершенного вида в тексте
