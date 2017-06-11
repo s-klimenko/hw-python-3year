@@ -11,15 +11,15 @@
         google.charts.setOnLoadCallback(drawChart);
         function drawChart() {
             var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Часть речи');
+            data.addColumn('string', 'Лемма');
             data.addColumn('number', 'Количество');
             data.addRows([
               {% for lemm, value in data.items() %}
-                  [{{ lemm }}, {{ value|int }}],
+                  ['{{ lemm }}', {{ value }}],
               {% endfor %}
             ]);
 
-            var options = {'title':'Части речи',
+            var options = {'title':'Частотные леммы',
                            'width':600,
                            'height':300,
                             'legend': { position: "none" }};
@@ -41,15 +41,14 @@
             <div id="body">
                 <div id="section">
                     <h2>Что здесь можно делать?</h2>
-                    <p>Ввести ID открытого сообщества или паблика и получить список самых частотных слов.<br>
-                    <a href="http://tkacheff.ru/16/kak-uznat-id-gruppy-vkontakte/">Здесь</a> вы можете посмотреть, как узнать ID.<p>
+                    <p>Ввести ID или короткое имя открытого сообщества или паблика и получить список самых частотных слов.<p>
                 </div>
 
                 <div id="section">
                     <form method='post'>
-                        <h2>ID</h2>
-                        <input name="id" placeholder="например, 85856325">{{ input }}</input>
-                        <br>
+                        <h2>ID или имя</h2>
+                        <input name="id" placeholder="strofes">{{ input }}</input>
+                        <br><br>
                         <input id="myButton" type="submit" value="Отправить">
                     </form>
                 </div>
@@ -57,7 +56,7 @@
                 {% if error == False %}
                 <div id="section">
                     <h2>Результаты:</h2>
-                    <div id="chart_div"></div>
+                    <div id="divider_left">
                     <p>
                         {% for lemm, value in lemms.items() %}
                             <li>{{ lemm }}: {{ value }}
@@ -68,6 +67,11 @@
                             {% endif %}</li>
                     </p>
                     {% endfor %}
+                        </div>
+                    <div id="divider_right">
+                    <div id="chart_div"></div>
+                        </div>
+                    <br style="clear:both;"/>
                 </div>
 
                 {% elif error == True %}
